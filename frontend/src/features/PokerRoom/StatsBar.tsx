@@ -30,11 +30,10 @@ export function StatsBar({ users, revealed }: StatsBarProps) {
   const stats = revealed ? calculateStats(users) : null
 
   return (
-    <div className="h-16 mb-4 flex items-center justify-center">
+    <div className="h-12 mb-2 flex items-center justify-center">
       <div
-        className={`flex gap-4 transition-opacity duration-300 ${
-          revealed && stats ? 'opacity-100' : 'invisible opacity-0'
-        }`}
+        className={`flex gap-4 transition-opacity duration-300 ${revealed && stats ? 'opacity-100' : 'invisible opacity-0'
+          }`}
       >
         {stats ? (
           <>

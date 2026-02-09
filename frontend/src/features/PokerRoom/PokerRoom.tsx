@@ -55,10 +55,10 @@ export function PokerRoom({ params }: PokerRoomProps) {
         onChangeTheme={setTheme}
       />
 
-      <main className="flex-1 flex flex-col items-center py-8 px-4 overflow-y-auto overflow-x-hidden">
+      <main className="flex-1 flex flex-col items-center pt-2 pb-8 px-4 overflow-y-auto overflow-x-hidden">
         <StatsBar users={roomState.users} revealed={roomState.revealed} />
 
-        <div className="table-surface bg-slate-200/40 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-[64px] p-8 md:p-12 w-full max-w-5xl flex flex-col items-center gap-10 shadow-2xl backdrop-blur-md relative overflow-hidden transition-colors">
+        <div className="table-surface bg-slate-200/40 dark:bg-white/5 border border-slate-300 dark:border-white/10 rounded-[64px] p-6 md:p-8 w-full max-w-5xl flex flex-col items-center gap-10 shadow-2xl backdrop-blur-md relative overflow-hidden transition-colors">
           {/* グリッド背景 */}
           <div
             className="absolute inset-0 opacity-20 pointer-events-none"
@@ -69,7 +69,7 @@ export function PokerRoom({ params }: PokerRoomProps) {
           />
 
           {/* カードグリッド */}
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(110px,1fr))] gap-x-2 gap-y-10 w-full max-w-4xl justify-items-center relative z-10">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-10 w-full max-w-4xl relative z-10">
             {roomState.users.map((user) => (
               <Card
                 key={user.id}
@@ -87,11 +87,10 @@ export function PokerRoom({ params }: PokerRoomProps) {
                 type="button"
                 onClick={reveal}
                 disabled={!canReveal}
-                className={`h-14 px-12 rounded-full font-extrabold text-lg border-2 border-transparent box-border transition-all ${
-                  canReveal
+                className={`h-14 px-12 rounded-full font-extrabold text-lg border-2 border-transparent box-border transition-all ${canReveal
                     ? 'bg-primary hover:bg-indigo-600 text-white shadow-xl shadow-primary/30 hover:-translate-y-1 active:scale-95'
                     : 'bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed'
-                }`}
+                  }`}
               >
                 カードを開く
               </button>
