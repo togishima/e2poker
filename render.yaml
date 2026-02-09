@@ -4,6 +4,14 @@ services:
     runtime: node
     plan: free
     rootDir: .
+    buildFilter:
+      paths:
+        - backend/**
+        - shared/**
+        - package.json
+        - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.base.json
     buildCommand: pnpm install
     startCommand: pnpm --filter backend start
     healthCheckPath: /health
@@ -20,9 +28,17 @@ services:
 
   - type: static
     name: e2poker-frontend
-    rootDir: .
+    rootDir: frontend
+    buildFilter:
+      paths:
+        - frontend/**
+        - shared/**
+        - package.json
+        - pnpm-lock.yaml
+        - pnpm-workspace.yaml
+        - tsconfig.base.json
     buildCommand: pnpm install && pnpm --filter frontend build
-    staticPublishPath: frontend/dist/public
+    staticPublishPath: dist/public
     envVars:
       - key: VITE_WS_URL
         value: wss://e2poker-backend.onrender.com
