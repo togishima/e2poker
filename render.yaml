@@ -17,8 +17,9 @@ services:
       - key: IDLE_TIMEOUT_MS
         value: 1800000
 
-  - type: static_site
+  - type: web
     name: e2poker-frontend
+    runtime: static
     plan: free
     rootDir: .
     buildCommand: pnpm install && pnpm --filter frontend build
