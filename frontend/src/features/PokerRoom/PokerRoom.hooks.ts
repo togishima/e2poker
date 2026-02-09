@@ -1,4 +1,4 @@
-import type { ClientMessage, DeckType, RoomState, ServerMessage } from '@e2poker/shared/protocol'
+import type { ClientMessage, DeckType, RoomState, ServerMessage } from '@e2poker/shared'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { Theme } from './PokerRoom.types'
 

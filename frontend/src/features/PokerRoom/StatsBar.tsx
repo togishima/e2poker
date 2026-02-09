@@ -1,4 +1,4 @@
-import type { UserState } from '@e2poker/shared/protocol'
+import type { UserState } from '@e2poker/shared'
 
 type StatsBarProps = {
   users: UserState[]

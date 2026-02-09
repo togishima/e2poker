@@ -1,4 +1,4 @@
-import { DECKS, type DeckType } from '@e2poker/shared/protocol'
+import { DECKS, type DeckType } from '@e2poker/shared'
 
 type DeckSelectorProps = {
   currentDeck: DeckType
