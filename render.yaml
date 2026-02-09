@@ -22,7 +22,7 @@ services:
     name: e2poker-frontend
     rootDir: .
     buildCommand: pnpm install && pnpm --filter frontend build
-    staticPublishPath: frontend/dist/public
+    staticPublishPath: frontend/dist
     envVars:
       - key: VITE_WS_URL
         value: wss://e2poker-backend.onrender.com
