@@ -8,8 +8,13 @@ type CardProps = {
 
 export function Card({ user, isMe, revealed }: CardProps) {
   const isVoted = user.voted
+  const isSpectator = user.isSpectator
   const showCard = revealed || (isMe && isVoted)
   const value = showCard ? user.vote : ''
+
+  if (isSpectator) {
+    return null
+  }
 
   return (
     <div className={`flex flex-col items-center gap-3 ${revealed ? 'revealed' : ''}`}>
