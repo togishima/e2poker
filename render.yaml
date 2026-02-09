@@ -28,7 +28,7 @@ services:
 
   - type: static
     name: e2poker-frontend
-    rootDir: frontend
+    rootDir: .
     buildFilter:
       paths:
         - frontend/**
@@ -38,7 +38,7 @@ services:
         - pnpm-workspace.yaml
         - tsconfig.base.json
     buildCommand: pnpm install && pnpm --filter frontend build
-    staticPublishPath: dist/public
+    staticPublishPath: frontend/dist/public
     envVars:
       - key: VITE_WS_URL
         value: wss://e2poker-backend.onrender.com
