@@ -91,7 +91,7 @@ export function Header({
 
       <div className="hidden md:flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400 font-medium absolute left-1/2 -translate-x-1/2">
         <div className="font-mono flex items-center gap-2">
-          ID:{' '}
+          RoomID:{' '}
           <span className="select-all" title={roomId}>
             {displayRoomId}
           </span>
@@ -161,8 +161,8 @@ export function Header({
           </button>
           <div
             className={`absolute top-full right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl p-1 min-w-[140px] z-[100] transition-all duration-200 ${isThemeMenuOpen
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 -translate-y-2 pointer-events-none'
+              ? 'opacity-100 translate-y-0'
+              : 'opacity-0 -translate-y-2 pointer-events-none'
               }`}
           >
             {(['system', 'light', 'dark'] as const).map((t) => (
