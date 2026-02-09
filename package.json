@@ -1,0 +1,14 @@
+{
+  "name": "e2poker",
+  "private": true,
+  "scripts": {
+    "dev:backend": "pnpm --filter backend dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "test": "pnpm --filter backend test",
+    "lint": "biome check .",
+    "typecheck": "pnpm -r run typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0"
+  }
+}
