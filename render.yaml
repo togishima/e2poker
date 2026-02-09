@@ -17,7 +17,7 @@ services:
       - key: IDLE_TIMEOUT_MS
         value: 1800000
 
-  - type: static
+  - type: static_site
     name: e2poker-frontend
     plan: free
     rootDir: .
