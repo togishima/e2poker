@@ -82,7 +82,6 @@ export function Header({
     system: { icon: '🖥️', label: 'システム' },
   }
 
-  const displayRoomId = roomId.length > 12 ? `${roomId.slice(0, 12)}...` : roomId
 
   return (
     <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-50 relative">
@@ -95,14 +94,14 @@ export function Header({
         <div className="font-mono flex items-center gap-2">
           RoomID:{' '}
           <span className="select-all" title={roomId}>
-            {displayRoomId}
+            {roomId}
           </span>
           <button
             type="button"
             onClick={handleShareUrl}
             className={`px-3 py-1 rounded-md font-bold text-xs shadow-lg transition-all ${showToast
-                ? 'bg-emerald-500 text-white shadow-emerald-500/20'
-                : 'bg-primary hover:bg-indigo-600 text-white shadow-primary/20'
+              ? 'bg-emerald-500 text-white shadow-emerald-500/20'
+              : 'bg-primary hover:bg-indigo-600 text-white shadow-primary/20'
               }`}
           >
             {showToast ? 'コピー完了！' : 'URL共有'}
