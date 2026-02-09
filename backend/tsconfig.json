@@ -2,8 +2,9 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "paths": {
+      "@e2poker/shared": ["../shared/protocol.ts"]
+    }
   },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../shared" }]
+  "include": ["src/**/*.ts"]
 }
