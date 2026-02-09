@@ -18,12 +18,11 @@ services:
       - key: IDLE_TIMEOUT_MS
         value: 1800000
 
-  - type: web
+  - type: static
     name: e2poker-frontend
-    runtime: static
     rootDir: .
     buildCommand: pnpm install && pnpm --filter frontend build
-    staticPublishPath: frontend/dist
+    staticPublishPath: frontend/dist/public
     envVars:
       - key: VITE_WS_URL
         value: wss://e2poker-backend.onrender.com

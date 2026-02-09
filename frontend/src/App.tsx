@@ -1,6 +1,4 @@
 'use client'
-import 'urlpattern-polyfill'
-import './index.css'
 import { Router, route } from '@funstack/router'
 import { Home } from './features/Home/Home'
 import { PokerRoom } from './features/PokerRoom/PokerRoom'
