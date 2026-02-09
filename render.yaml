@@ -7,6 +7,7 @@ services:
     buildCommand: pnpm install
     startCommand: pnpm --filter backend start
     healthCheckPath: /health
+    region: singapore
     envVars:
       - key: NODE_ENV
         value: production
