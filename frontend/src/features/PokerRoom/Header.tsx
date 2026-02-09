@@ -83,13 +83,13 @@ export function Header({
   const displayRoomId = roomId.length > 12 ? `${roomId.slice(0, 12)}...` : roomId
 
   return (
-    <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-50">
-      <div className="flex items-center gap-2 text-xl font-extrabold tracking-tight">
+    <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-50 relative">
+      <div className="flex items-center gap-2 text-xl font-extrabold tracking-tight shrink-0">
         <span className="bg-primary text-white px-2 py-0.5 rounded-lg text-base">E²</span>
         <span>Poker</span>
       </div>
 
-      <div className="hidden md:flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400 font-medium">
+      <div className="hidden md:flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400 font-medium absolute left-1/2 -translate-x-1/2">
         <div className="font-mono flex items-center gap-2">
           ID:{' '}
           <span className="select-all" title={roomId}>
@@ -108,7 +108,7 @@ export function Header({
         </div>
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 shrink-0">
         <div className="flex items-center gap-4 border-r border-slate-200 dark:border-slate-800 pr-4 mr-2">
           {isEditingName ? (
             <input
@@ -160,11 +160,10 @@ export function Header({
             <span>{themeConfig[theme].label}</span>
           </button>
           <div
-            className={`absolute top-full right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl p-1 min-w-[140px] z-[100] transition-all duration-200 ${
-              isThemeMenuOpen
+            className={`absolute top-full right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl p-1 min-w-[140px] z-[100] transition-all duration-200 ${isThemeMenuOpen
                 ? 'opacity-100 translate-y-0'
                 : 'opacity-0 -translate-y-2 pointer-events-none'
-            }`}
+              }`}
           >
             {(['system', 'light', 'dark'] as const).map((t) => (
               <button
@@ -174,9 +173,8 @@ export function Header({
                   onChangeTheme(t)
                   setIsThemeMenuOpen(false)
                 }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-slate-100 dark:hover:bg-slate-700 ${
-                  theme === t ? 'text-primary bg-slate-100 dark:bg-slate-700' : ''
-                }`}
+                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-slate-100 dark:hover:bg-slate-700 ${theme === t ? 'text-primary bg-slate-100 dark:bg-slate-700' : ''
+                  }`}
               >
                 {themeConfig[t].icon} {themeConfig[t].label}
               </button>
