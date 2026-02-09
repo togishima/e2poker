@@ -14,7 +14,8 @@
     "@funstack/static": "^0.0.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@e2poker/shared": "workspace:*"
+    "@e2poker/shared": "workspace:*",
+    "urlpattern-polyfill": "^10.0.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.0",
