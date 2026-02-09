@@ -20,7 +20,6 @@ services:
   - type: web
     name: e2poker-frontend
     runtime: static
-    plan: free
     rootDir: .
     buildCommand: pnpm install && pnpm --filter frontend build
     staticPublishPath: frontend/dist
