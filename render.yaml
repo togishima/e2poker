@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: e2poker-backend
+    runtime: node
+    plan: free
+    rootDir: .
+    buildCommand: pnpm install
+    startCommand: pnpm --filter backend start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MAX_CONNECTIONS
+        value: 200
+      - key: MAX_ROOM_CONNECTIONS
+        value: 30
+      - key: IDLE_TIMEOUT_MS
+        value: 1800000
+
+  - type: static
+    name: e2poker-frontend
+    plan: free
+    rootDir: .
+    buildCommand: pnpm install && pnpm --filter frontend build
+    staticPublishPath: frontend/dist
+    envVars:
+      - key: VITE_WS_URL
+        value: wss://e2poker-backend.onrender.com
