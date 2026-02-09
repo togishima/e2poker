@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { Theme } from './PokerRoom.types'
+import { Toast } from './Toast'
 
 type HeaderProps = {
   roomId: string
@@ -25,6 +26,7 @@ export function Header({
   const [isEditingName, setIsEditingName] = useState(false)
   const [editedName, setEditedName] = useState(userName)
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false)
+  const [showToast, setShowToast] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const themeMenuRef = useRef<HTMLDivElement>(null)
 
@@ -68,7 +70,7 @@ export function Header({
     const url = window.location.href
     try {
       await navigator.clipboard.writeText(url)
-      alert('URLをクリップボードにコピーしました')
+      setShowToast(true)
     } catch (err) {
       console.error('Failed to copy URL:', err)
     }
@@ -98,9 +100,12 @@ export function Header({
           <button
             type="button"
             onClick={handleShareUrl}
-            className="bg-primary hover:bg-indigo-600 text-white px-3 py-1 rounded-md font-bold text-xs shadow-lg shadow-primary/20 transition-all"
+            className={`px-3 py-1 rounded-md font-bold text-xs shadow-lg transition-all ${showToast
+                ? 'bg-emerald-500 text-white shadow-emerald-500/20'
+                : 'bg-primary hover:bg-indigo-600 text-white shadow-primary/20'
+              }`}
           >
-            URL共有
+            {showToast ? 'コピー完了！' : 'URL共有'}
           </button>
         </div>
         <div>
@@ -182,6 +187,11 @@ export function Header({
           </div>
         </div>
       </div>
+      <Toast
+        message="URLをクリップボードにコピーしました"
+        isVisible={showToast}
+        onClose={() => setShowToast(false)}
+      />
     </header>
   )
 }
