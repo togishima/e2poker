@@ -113,6 +113,7 @@ export class RoomManager {
     if (!room) throw new Error(`Room ${roomId} not found`)
 
     room.deckType = deckType
+    room.revealed = false
     // 全投票をリセット
     for (const user of room.users.values()) {
       user.vote = null
