@@ -4,7 +4,11 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@e2poker/shared/*": ["../shared/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
   "references": [{ "path": "../shared" }]

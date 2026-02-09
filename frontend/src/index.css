@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .card-inner {
+    @apply relative;
+    transform-style: preserve-3d;
+  }
+  .revealed .card-inner {
+    animation: flipIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  @keyframes flipIn {
+    from {
+      transform: rotateY(0);
+    }
+    to {
+      transform: rotateY(180deg);
+    }
+  }
+  .face {
+    @apply absolute inset-0 w-full h-full rounded-2xl flex items-center justify-center font-extrabold;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .face-front {
+    transform: rotateY(180deg);
+  }
+  .face-back {
+    @apply z-10;
+  }
+}
