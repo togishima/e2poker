@@ -43,8 +43,10 @@ function getUserName(): string {
 export function usePokerRoom(roomId: string) {
   const [roomState, setRoomState] = useState<RoomState | null>(null)
   const [connected, setConnected] = useState(false)
+  const [disconnectReason, setDisconnectReason] = useState<string | null>(null)
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const shouldReconnectRef = useRef(true)
   const [userId] = useState(() => getUserId())
   const [userName, setUserNameState] = useState(() => getUserName())
 
@@ -55,6 +57,7 @@ export function usePokerRoom(roomId: string) {
   }, [])
 
   const connect = useCallback(() => {
+    if (!shouldReconnectRef.current) return
     const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:3001'
     const ws = new WebSocket(wsUrl)
     wsRef.current = ws
@@ -75,14 +78,24 @@ export function usePokerRoom(roomId: string) {
         setRoomState(message.state)
       } else if (message.type === 'ERROR') {
         console.error('WebSocket error:', message.message)
+        if (
+          message.message === 'Idle timeout' ||
+          message.message === 'Server is at capacity' ||
+          message.message === 'Room is at capacity'
+        ) {
+          setDisconnectReason(message.message)
+          shouldReconnectRef.current = false
+        }
       }
     }
 
     ws.onclose = () => {
       setConnected(false)
-      reconnectTimeoutRef.current = setTimeout(() => {
-        connect()
-      }, 3000)
+      if (shouldReconnectRef.current) {
+        reconnectTimeoutRef.current = setTimeout(() => {
+          connect()
+        }, 3000)
+      }
     }
 
     ws.onerror = () => {
@@ -91,6 +104,8 @@ export function usePokerRoom(roomId: string) {
   }, [roomId, userId, userName, send])
 
   useEffect(() => {
+    shouldReconnectRef.current = true
+    setDisconnectReason(null)
     connect()
 
     return () => {
@@ -144,6 +159,7 @@ export function usePokerRoom(roomId: string) {
   return {
     roomState,
     connected,
+    disconnectReason,
     userId,
     userName,
     vote,

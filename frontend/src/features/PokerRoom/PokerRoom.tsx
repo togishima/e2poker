@@ -1,3 +1,4 @@
+import { useNavigate } from '@funstack/router'
 import { Card } from './Card'
 import { DeckSelector } from './DeckSelector'
 import { Header } from './Header'
@@ -15,6 +16,7 @@ export function PokerRoom({ params }: PokerRoomProps) {
   const {
     roomState,
     connected,
+    disconnectReason,
     userId,
     userName,
     vote,
@@ -25,6 +27,37 @@ export function PokerRoom({ params }: PokerRoomProps) {
     toggleSpectator,
   } = usePokerRoom(roomId)
   const { theme, setTheme } = useTheme()
+  const navigate = useNavigate()
+
+  const handleCreateNewRoom = () => {
+    const newRoomId = crypto.randomUUID()
+    navigate(`/room/${newRoomId}`)
+  }
+
+  if (disconnectReason) {
+    const disconnectMessages: Record<string, string> = {
+      'Idle timeout': '一定時間操作がなかったため切断されました。',
+      'Server is at capacity': 'サーバーの接続上限に達しています。',
+      'Room is at capacity': 'このルームの接続上限に達しています。',
+    }
+    const message = disconnectMessages[disconnectReason] ?? '接続が切断されました。'
+
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl p-8 w-full max-w-md text-center">
+          <div className="text-xl font-extrabold mb-2">接続が切断されました</div>
+          <div className="text-sm text-slate-500 dark:text-slate-400 mb-6">{message}</div>
+          <button
+            type="button"
+            onClick={handleCreateNewRoom}
+            className="bg-primary hover:bg-indigo-600 text-white px-6 py-3 rounded-full font-extrabold text-sm shadow-xl shadow-primary/30 transition-all active:scale-95"
+          >
+            新しいルームを作成
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   if (!connected || !roomState) {
     return (
