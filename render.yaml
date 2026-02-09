@@ -40,5 +40,7 @@ services:
     buildCommand: pnpm install && pnpm --filter frontend build
     staticPublishPath: dist/public
     envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
       - key: VITE_WS_URL
         value: wss://e2poker-backend.onrender.com
