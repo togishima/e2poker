@@ -1,18 +1,25 @@
 import { useNavigate } from '@funstack/router'
-import { useEffect } from 'react'
 
 export function Home() {
   const navigate = useNavigate()
 
-  useEffect(() => {
+  const handleCreateRoom = () => {
     const roomId = crypto.randomUUID()
     navigate(`/room/${roomId}`)
-  }, [navigate])
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       <div className="text-center">
-        <div className="text-xl font-extrabold mb-2">ルームを作成中...</div>
+        <div className="text-2xl font-extrabold mb-4">E² Poker</div>
+        <div className="text-sm text-slate-500 dark:text-slate-400 mb-6">新しいルームを作成します</div>
+        <button
+          type="button"
+          onClick={handleCreateRoom}
+          className="bg-primary hover:bg-indigo-600 text-white px-6 py-3 rounded-full font-extrabold text-sm shadow-xl shadow-primary/30 transition-all active:scale-95"
+        >
+          ルームを作成
+        </button>
       </div>
     </div>
   )
