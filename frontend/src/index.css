@@ -4,7 +4,7 @@
 
 @layer components {
   .card-inner {
-    @apply relative;
+    @apply relative w-full h-full;
     transform-style: preserve-3d;
   }
   .revealed .card-inner {

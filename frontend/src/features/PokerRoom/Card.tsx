@@ -13,7 +13,7 @@ export function Card({ user, isMe, revealed }: CardProps) {
 
   return (
     <div className={`flex flex-col items-center gap-3 ${revealed ? 'revealed' : ''}`}>
-      <div className="w-[84px] h-[120px] perspective-[1000px]">
+      <div className="w-[84px] h-[120px]" style={{ perspective: '1000px' }}>
         <div className="card-inner">
           {/* 裏面 */}
           <div
