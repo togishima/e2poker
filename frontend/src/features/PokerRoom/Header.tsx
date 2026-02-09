@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from '@funstack/router'
 import type { Theme } from './PokerRoom.types'
 import { Toast } from './Toast'
 
@@ -23,6 +24,7 @@ export function Header({
   onToggleSpectator,
   onChangeTheme,
 }: HeaderProps) {
+  const navigate = useNavigate()
   const [isEditingName, setIsEditingName] = useState(false)
   const [editedName, setEditedName] = useState(userName)
   const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false)
@@ -85,7 +87,10 @@ export function Header({
 
   return (
     <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-50 relative">
-      <div className="flex items-center gap-2 text-xl font-extrabold tracking-tight shrink-0">
+      <div
+        onClick={() => navigate('/')}
+        className="flex items-center gap-2 text-xl font-extrabold tracking-tight shrink-0 hover:opacity-80 transition-opacity cursor-pointer active:scale-95 transition-transform"
+      >
         <span className="bg-primary text-white px-2 py-0.5 rounded-lg text-base">E²</span>
         <span>Poker</span>
       </div>
