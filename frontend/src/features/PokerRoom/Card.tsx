@@ -17,16 +17,15 @@ export function Card({ user, isMe, revealed }: CardProps) {
   }
 
   return (
-    <div className={`flex flex-col items-center gap-3 ${revealed ? 'revealed' : ''}`}>
+    <div className={`flex flex-col items-center gap-3 ${revealed && isVoted ? 'revealed' : ''}`}>
       <div className="w-[84px] h-[120px]" style={{ perspective: '1000px' }}>
         <div className="card-inner">
           {/* 裏面 */}
           <div
-            className={`face face-back ${
-              isVoted
-                ? 'bg-indigo-600 border-2 border-solid border-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.4)]'
-                : 'bg-white dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700'
-            }`}
+            className={`face face-back ${isVoted
+              ? 'bg-indigo-600 border-2 border-solid border-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.4)]'
+              : 'bg-white dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700'
+              }`}
           >
             {isVoted && <span className="text-white/20 text-xl italic font-black">E²</span>}
           </div>
@@ -37,9 +36,8 @@ export function Card({ user, isMe, revealed }: CardProps) {
         </div>
       </div>
       <div
-        className={`text-[10px] font-bold text-center ${
-          isMe ? 'text-primary underline underline-offset-4' : 'text-slate-500 dark:text-slate-400'
-        }`}
+        className={`text-[10px] font-bold text-center ${isMe ? 'text-primary underline underline-offset-4' : 'text-slate-500 dark:text-slate-400'
+          }`}
       >
         {user.name}
         {user.isSpectator && (
