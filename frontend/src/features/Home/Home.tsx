@@ -26,6 +26,11 @@ export function Home() {
           ルームを作成
         </button>
       </div>
+      
+      <footer className="absolute bottom-4 text-xs text-slate-400 dark:text-slate-600 flex gap-4">
+        <a href="/terms" className="hover:underline hover:text-slate-600 dark:hover:text-slate-400">利用規約</a>
+        <a href="/privacy" className="hover:underline hover:text-slate-600 dark:hover:text-slate-400">プライバシーポリシー</a>
+      </footer>
     </div>
   )
 }
