@@ -26,7 +26,8 @@ services:
       - key: IDLE_TIMEOUT_MS
         value: 1800000
 
-  - type: static
+  - type: web
+    runtime: static
     name: e2poker-frontend
     rootDir: frontend
     buildFilter:
