@@ -3,7 +3,8 @@ export function Terms() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">利用規約</h1>
       <p className="mb-4">
-        この利用規約（以下，「本規約」といいます。）は，本サービス（E² Poker）の利用条件を定めるものです。
+        この利用規約（以下，「本規約」といいます。）は，本サービス（E²
+        Poker）の利用条件を定めるものです。
       </p>
 
       <h2 className="text-xl font-bold mt-6 mb-2">第1条（適用）</h2>
@@ -12,14 +13,14 @@ export function Terms() {
       </p>
 
       <h2 className="text-xl font-bold mt-6 mb-2">第2条（禁止事項）</h2>
-      <p className="mb-4">
-        ユーザーは，本サービスの利用にあたり，以下の行為をしてはなりません。
-      </p>
+      <p className="mb-4">ユーザーは，本サービスの利用にあたり，以下の行為をしてはなりません。</p>
       <ul className="list-disc list-inside mb-4">
         <li>法令または公序良俗に違反する行為</li>
         <li>犯罪行為に関連する行為</li>
         <li>本サービスの内容等，本サービスに含まれる著作権，商標権ほか知的財産権を侵害する行為</li>
-        <li>当運営者，ほかのユーザー，またはその他第三者のサーバーまたはネットワークの機能を破壊したり，妨害したりする行為</li>
+        <li>
+          当運営者，ほかのユーザー，またはその他第三者のサーバーまたはネットワークの機能を破壊したり，妨害したりする行為
+        </li>
         <li>本サービスの運営を妨害するおそれのある行為</li>
       </ul>
 
@@ -29,7 +30,9 @@ export function Terms() {
       </p>
       <ul className="list-disc list-inside mb-4">
         <li>本サービスにかかるコンピュータシステムの保守点検または更新を行う場合</li>
-        <li>地震，落雷，火災，停電または天災などの不可抗力により，本サービスの提供が困難となった場合</li>
+        <li>
+          地震，落雷，火災，停電または天災などの不可抗力により，本サービスの提供が困難となった場合
+        </li>
         <li>コンピュータまたは通信回線等が事故により停止した場合</li>
       </ul>
 
@@ -53,9 +56,7 @@ export function Terms() {
         運営者は，必要と判断した場合には，ユーザーに通知することなくいつでも本規約を変更することができるものとします。
       </p>
 
-      <p className="mt-8 text-sm text-gray-500">
-        最終更新日：2026年2月18日
-      </p>
+      <p className="mt-8 text-sm text-gray-500">最終更新日：2026年2月18日</p>
     </div>
   )
 }

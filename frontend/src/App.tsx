@@ -3,9 +3,9 @@ import 'urlpattern-polyfill'
 import './index.css'
 import { Router, route } from '@funstack/router'
 import { Home } from './features/Home/Home'
-import { PokerRoom } from './features/PokerRoom/PokerRoom'
-import { Terms } from './features/Legal/Terms'
 import { Privacy } from './features/Legal/Privacy'
+import { Terms } from './features/Legal/Terms'
+import { PokerRoom } from './features/PokerRoom/PokerRoom'
 
 const routes = [
   route({ path: '/', component: Home }),

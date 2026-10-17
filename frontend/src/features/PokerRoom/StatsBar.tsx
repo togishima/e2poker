@@ -32,8 +32,9 @@ export function StatsBar({ users, revealed }: StatsBarProps) {
   return (
     <div className="h-12 mb-2 flex items-center justify-center">
       <div
-        className={`flex gap-4 transition-opacity duration-300 ${revealed && stats ? 'opacity-100' : 'invisible opacity-0'
-          }`}
+        className={`flex gap-4 transition-opacity duration-300 ${
+          revealed && stats ? 'opacity-100' : 'invisible opacity-0'
+        }`}
       >
         {stats ? (
           <>

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from '@funstack/router'
+import { useEffect, useRef, useState } from 'react'
 import type { Theme } from './PokerRoom.types'
 import { Toast } from './Toast'
 
@@ -84,16 +84,16 @@ export function Header({
     system: { icon: '🖥️', label: 'システム' },
   }
 
-
   return (
     <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6 z-50 relative">
-      <div
+      <button
+        type="button"
         onClick={() => navigate('/')}
         className="flex items-center gap-2 text-xl font-extrabold tracking-tight shrink-0 hover:opacity-80 transition-opacity cursor-pointer active:scale-95 transition-transform"
       >
         <span className="bg-primary text-white px-2 py-0.5 rounded-lg text-base">E²</span>
         <span>Poker</span>
-      </div>
+      </button>
 
       <div className="hidden md:flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400 font-medium absolute left-1/2 -translate-x-1/2">
         <div className="font-mono flex items-center gap-2">
@@ -104,10 +104,11 @@ export function Header({
           <button
             type="button"
             onClick={handleShareUrl}
-            className={`px-3 py-1 rounded-md font-bold text-xs shadow-lg transition-all ${showToast
-              ? 'bg-emerald-500 text-white shadow-emerald-500/20'
-              : 'bg-primary hover:bg-indigo-600 text-white shadow-primary/20'
-              }`}
+            className={`px-3 py-1 rounded-md font-bold text-xs shadow-lg transition-all ${
+              showToast
+                ? 'bg-emerald-500 text-white shadow-emerald-500/20'
+                : 'bg-primary hover:bg-indigo-600 text-white shadow-primary/20'
+            }`}
           >
             {showToast ? 'コピー完了！' : 'URL共有'}
           </button>
@@ -169,10 +170,11 @@ export function Header({
             <span>{themeConfig[theme].label}</span>
           </button>
           <div
-            className={`absolute top-full right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl p-1 min-w-[140px] z-[100] transition-all duration-200 ${isThemeMenuOpen
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 -translate-y-2 pointer-events-none'
-              }`}
+            className={`absolute top-full right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl p-1 min-w-[140px] z-[100] transition-all duration-200 ${
+              isThemeMenuOpen
+                ? 'opacity-100 translate-y-0'
+                : 'opacity-0 -translate-y-2 pointer-events-none'
+            }`}
           >
             {(['system', 'light', 'dark'] as const).map((t) => (
               <button
@@ -182,8 +184,9 @@ export function Header({
                   onChangeTheme(t)
                   setIsThemeMenuOpen(false)
                 }}
-                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-slate-100 dark:hover:bg-slate-700 ${theme === t ? 'text-primary bg-slate-100 dark:bg-slate-700' : ''
-                  }`}
+                className={`w-full text-left px-3 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-slate-100 dark:hover:bg-slate-700 ${
+                  theme === t ? 'text-primary bg-slate-100 dark:bg-slate-700' : ''
+                }`}
               >
                 {themeConfig[t].icon} {themeConfig[t].label}
               </button>
