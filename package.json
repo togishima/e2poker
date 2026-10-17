@@ -7,7 +7,7 @@
     "dev": "pnpm run dev:backend & pnpm run dev:frontend",
     "test": "pnpm --filter backend test",
     "lint": "biome check .",
-    "typecheck": "pnpm -r run typecheck"
+    "typecheck": "pnpm --filter @e2poker/shared build && pnpm -r run typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0"
