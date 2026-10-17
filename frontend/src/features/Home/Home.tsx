@@ -27,7 +27,7 @@ export function Home() {
         </button>
       </div>
 
-      <footer className="absolute bottom-4 text-xs text-slate-400 dark:text-slate-600 flex gap-4">
+      <footer className="absolute bottom-4 inset-x-0 px-4 text-xs text-slate-400 dark:text-slate-600 flex flex-wrap justify-center gap-x-4 gap-y-1 whitespace-nowrap">
         <a href="/terms" className="hover:underline hover:text-slate-600 dark:hover:text-slate-400">
           利用規約
         </a>
@@ -64,6 +64,15 @@ export function Home() {
             </svg>
           </a>
         </div>
+        <span className="text-slate-200 dark:text-slate-800">|</span>
+        <a
+          href="https://github.com/sponsors/togishima"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline hover:text-slate-600 dark:hover:text-slate-400"
+        >
+          開発を支援する
+        </a>
       </footer>
     </div>
   )
