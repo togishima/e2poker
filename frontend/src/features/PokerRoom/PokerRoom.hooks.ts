@@ -22,6 +22,24 @@ function generateRandomName(): string {
   return `${color}${animal}`
 }
 
+// 接続先: VITE_WS_URL があればそれ（Render 用）、開発時は localhost、本番は同一オリジンの /ws
+function getWsUrl(roomId: string): string {
+  const configured = import.meta.env.VITE_WS_URL
+  let base: string
+  if (configured) {
+    base = configured
+  } else if (import.meta.env.DEV) {
+    base = 'ws://localhost:3001'
+  } else {
+    const protocol = location.protocol === 'https:' ? 'wss' : 'ws'
+    base = `${protocol}://${location.host}/ws`
+  }
+
+  const url = new URL(base)
+  url.search = `room=${encodeURIComponent(roomId)}`
+  return url.toString()
+}
+
 function getUserId(): string {
   const stored = localStorage.getItem('e2poker_userId')
   if (stored) return stored
@@ -58,8 +76,7 @@ export function usePokerRoom(roomId: string) {
 
   const connect = useCallback(() => {
     if (!shouldReconnectRef.current) return
-    const wsUrl = import.meta.env.VITE_WS_URL || 'ws://localhost:3001'
-    const ws = new WebSocket(wsUrl)
+    const ws = new WebSocket(getWsUrl(roomId))
     wsRef.current = ws
 
     ws.onopen = () => {

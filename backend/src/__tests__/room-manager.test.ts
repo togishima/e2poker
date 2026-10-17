@@ -1,5 +1,5 @@
 import { type DeckType, MAX_USER_NAME_LENGTH, type UserState } from '@e2poker/shared'
-import { RoomManager, toPublicId } from '../room-manager.js'
+import { RoomManager, type RoomSnapshot, toPublicId } from '../room-manager.js'
 
 describe('RoomManager', () => {
   let manager: RoomManager
@@ -301,6 +301,34 @@ describe('RoomManager', () => {
       manager.joinRoom('room1', 'user1', 'Alice')
       expect(() => manager.changeDeck('room1', 'unknown' as DeckType)).toThrow()
       expect(manager.getRoomState('room1', 'user1').deckType).toBe('fibonacci')
+    })
+  })
+
+  describe('export / import（永続化用）', () => {
+    it('書き出したスナップショットを別インスタンスに復元すると状態が一致する', () => {
+      manager.joinRoom('room1', 'user1', 'Alice')
+      manager.joinRoom('room1', 'user2', 'Bob')
+      manager.changeDeck('room1', 'tshirt')
+      manager.vote('room1', 'user1', 'M')
+      manager.vote('room1', 'user2', 'L')
+      manager.reveal('room1')
+
+      const snapshot = manager.exportRoom('room1')
+      expect(snapshot).not.toBeNull()
+
+      // JSON経由（DOストレージと同じ往復）で復元する
+      const restored = new RoomManager()
+      restored.importRoom(JSON.parse(JSON.stringify(snapshot)) as RoomSnapshot)
+      expect(restored.getRoomState('room1', 'user1')).toEqual(
+        manager.getRoomState('room1', 'user1'),
+      )
+      expect(restored.getRoomState('room1', 'user2')).toEqual(
+        manager.getRoomState('room1', 'user2'),
+      )
+    })
+
+    it('存在しないルームのexportはnullを返す', () => {
+      expect(manager.exportRoom('missing')).toBeNull()
     })
   })
 })

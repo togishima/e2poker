@@ -41,6 +41,14 @@ type User = {
   isSpectator: boolean
 }
 
+// 1ルーム分の永続化用スナップショット（JSON化できるようMapを使わない）
+export type RoomSnapshot = {
+  id: string
+  deckType: DeckType
+  revealed: boolean
+  users: Array<{ id: string; name: string; vote: string | null; isSpectator: boolean }>
+}
+
 export class RoomManager {
   private rooms: Map<string, Room> = new Map()
 
@@ -55,6 +63,44 @@ export class RoomManager {
 
   deleteRoom(id: string): void {
     this.rooms.delete(id)
+  }
+
+  exportRoom(roomId: string): RoomSnapshot | null {
+    const room = this.rooms.get(roomId)
+    if (!room) return null
+
+    return {
+      id: room.id,
+      deckType: room.deckType,
+      revealed: room.revealed,
+      users: Array.from(room.users.values()).map((user) => ({
+        id: user.id,
+        name: user.name,
+        vote: user.vote,
+        isSpectator: user.isSpectator,
+      })),
+    }
+  }
+
+  importRoom(snapshot: RoomSnapshot): void {
+    validateId('roomId', snapshot.id)
+    if (!Object.hasOwn(DECKS, snapshot.deckType)) throw new Error('Invalid deck type')
+
+    const users = new Map<string, User>()
+    for (const user of snapshot.users) {
+      users.set(user.id, {
+        id: user.id,
+        name: user.name,
+        vote: user.vote,
+        isSpectator: user.isSpectator,
+      })
+    }
+    this.rooms.set(snapshot.id, {
+      id: snapshot.id,
+      deckType: snapshot.deckType,
+      revealed: snapshot.revealed,
+      users,
+    })
   }
 
   joinRoom(roomId: string, userId: string, userName: string): void {
