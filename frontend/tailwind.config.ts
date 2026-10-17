@@ -7,11 +7,10 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
         primary: {
-          DEFAULT: '#6366f1',
+          DEFAULT: '#6264ed',
           glow: 'rgba(99, 102, 241, 0.3)',
         },
       },

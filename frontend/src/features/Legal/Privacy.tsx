@@ -1,6 +1,6 @@
 export function Privacy() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <main className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">プライバシーポリシー</h1>
       <p className="mb-4">
         本サービス（E²
@@ -55,6 +55,6 @@ export function Privacy() {
       </p>
 
       <p className="mt-8 text-sm text-gray-500">最終更新日：2026年10月17日</p>
-    </div>
+    </main>
   )
 }

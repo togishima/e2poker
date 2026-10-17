@@ -5,10 +5,17 @@ export default function Root({ children }: { children: React.ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>E² Poker</title>
+        <meta
+          name="description"
+          content="登録不要ですぐに始められる、シンプルなプランニングポーカー。URLを共有するだけでチームで見積もりができます。"
+        />
         <link rel="icon" type="image/png" href="/favicon.png" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap"
-          rel="stylesheet"
+          rel="preload"
+          href="/fonts/inter-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
         />
       </head>
       <body>{children}</body>
