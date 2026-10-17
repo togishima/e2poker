@@ -9,7 +9,7 @@ export const DECKS: Record<DeckType, readonly string[]> = {
 
 // Client → Server
 export type ClientMessage =
-  | { type: 'JOIN'; roomId: string; userName: string; userId: string }
+  | { type: 'JOIN'; roomId: string; userName: string }
   | { type: 'VOTE'; value: string | null }
   | { type: 'REVEAL' }
   | { type: 'RESET' }
@@ -19,7 +19,7 @@ export type ClientMessage =
 
 // Server → Client
 export type ServerMessage =
-  | { type: 'SYNC_STATE'; state: RoomState }
+  | { type: 'SYNC_STATE'; state: RoomState; userId: string }
   | { type: 'ERROR'; message: string }
 
 export type RoomState = {
