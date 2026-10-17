@@ -1,4 +1,4 @@
-import type { DeckType, UserState } from '@e2poker/shared'
+import { type DeckType, MAX_USER_NAME_LENGTH, type UserState } from '@e2poker/shared'
 import { RoomManager, toPublicId } from '../room-manager.js'
 
 describe('RoomManager', () => {
@@ -271,6 +271,36 @@ describe('RoomManager', () => {
       manager.vote('room1', 'user1', '5')
       const stats = manager.getStats('room1')
       expect(stats).toBeNull()
+    })
+  })
+
+  describe('入力検証', () => {
+    it('長すぎる名前は切り詰められる', () => {
+      manager.joinRoom('room1', 'user1', 'あ'.repeat(100))
+      expect(manager.getRoomState('room1', 'user1').users[0]?.name).toHaveLength(
+        MAX_USER_NAME_LENGTH,
+      )
+      manager.changeName('room1', 'user1', 'い'.repeat(100))
+      expect(manager.getRoomState('room1', 'user1').users[0]?.name).toHaveLength(
+        MAX_USER_NAME_LENGTH,
+      )
+    })
+
+    it('長すぎるIDでは入室できない', () => {
+      expect(() => manager.joinRoom('r'.repeat(65), 'user1', 'Alice')).toThrow()
+      expect(() => manager.joinRoom('room1', 'u'.repeat(65), 'Alice')).toThrow()
+    })
+
+    it('デッキにない値では投票できない', () => {
+      manager.joinRoom('room1', 'user1', 'Alice')
+      expect(() => manager.vote('room1', 'user1', 'x'.repeat(1000))).toThrow()
+      expect(() => manager.vote('room1', 'user1', 'XL')).toThrow()
+    })
+
+    it('存在しないデッキには変更できない', () => {
+      manager.joinRoom('room1', 'user1', 'Alice')
+      expect(() => manager.changeDeck('room1', 'unknown' as DeckType)).toThrow()
+      expect(manager.getRoomState('room1', 'user1').deckType).toBe('fibonacci')
     })
   })
 })

@@ -1,9 +1,30 @@
 import { createHash } from 'node:crypto'
-import type { DeckType, RoomState, UserState } from '@e2poker/shared'
+import {
+  DECKS,
+  type DeckType,
+  MAX_USER_NAME_LENGTH,
+  type RoomState,
+  type UserState,
+} from '@e2poker/shared'
+
+const MAX_ID_LENGTH = 64
 
 // userIdは本人確認に使うため他の参加者には渡さず、ルームごとのハッシュを公開IDとして配信する
 export function toPublicId(roomId: string, userId: string): string {
   return createHash('sha256').update(`${roomId}:${userId}`).digest('hex').slice(0, 16)
+}
+
+function validateId(label: string, value: unknown): string {
+  if (typeof value !== 'string' || value.length === 0 || value.length > MAX_ID_LENGTH) {
+    throw new Error(`Invalid ${label}`)
+  }
+  return value
+}
+
+// 長すぎる名前は弾かずに切り詰める（localStorageに古い長い名前が残っていても入室できるように）
+function normalizeName(value: unknown): string {
+  if (typeof value !== 'string') throw new Error('Invalid name')
+  return value.slice(0, MAX_USER_NAME_LENGTH)
 }
 
 type Room = {
@@ -37,6 +58,9 @@ export class RoomManager {
   }
 
   joinRoom(roomId: string, userId: string, userName: string): void {
+    validateId('roomId', roomId)
+    validateId('userId', userId)
+    const name = normalizeName(userName)
     let room = this.rooms.get(roomId)
     if (!room) {
       this.createRoom(roomId)
@@ -47,12 +71,12 @@ export class RoomManager {
     const existingUser = room.users.get(userId)
     if (existingUser) {
       // 既存ユーザーの名前を更新
-      existingUser.name = userName
+      existingUser.name = name
     } else {
       // 新規ユーザー追加
       room.users.set(userId, {
         id: userId,
-        name: userName,
+        name,
         vote: null,
         isSpectator: false,
       })
@@ -79,6 +103,10 @@ export class RoomManager {
 
     if (room.revealed) {
       throw new Error('Cannot vote when cards are revealed')
+    }
+
+    if (value !== null && !DECKS[room.deckType].includes(value)) {
+      throw new Error('Invalid vote')
     }
 
     const user = room.users.get(userId)
@@ -111,12 +139,13 @@ export class RoomManager {
     const user = room.users.get(userId)
     if (!user) throw new Error(`User ${userId} not found in room ${roomId}`)
 
-    user.name = name
+    user.name = normalizeName(name)
   }
 
   changeDeck(roomId: string, deckType: DeckType): void {
     const room = this.rooms.get(roomId)
     if (!room) throw new Error(`Room ${roomId} not found`)
+    if (!Object.hasOwn(DECKS, deckType)) throw new Error('Invalid deck type')
 
     room.deckType = deckType
     room.revealed = false

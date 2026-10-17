@@ -7,6 +7,8 @@ export const DECKS: Record<DeckType, readonly string[]> = {
   roman: ['👍', '👎', '✋'],
 } as const
 
+export const MAX_USER_NAME_LENGTH = 20
+
 // Client → Server
 export type ClientMessage =
   | { type: 'JOIN'; roomId: string; userName: string; userId: string }

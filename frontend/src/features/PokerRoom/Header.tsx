@@ -1,3 +1,4 @@
+import { MAX_USER_NAME_LENGTH } from '@e2poker/shared'
 import { useNavigate } from '@funstack/router'
 import { useEffect, useRef, useState } from 'react'
 import type { Theme } from './PokerRoom.types'
@@ -125,6 +126,7 @@ export function Header({
               ref={inputRef}
               type="text"
               value={editedName}
+              maxLength={MAX_USER_NAME_LENGTH}
               onChange={(e) => setEditedName(e.target.value)}
               onBlur={handleNameSubmit}
               onKeyDown={handleNameKeyDown}

@@ -8,6 +8,7 @@ const MAX_CONNECTIONS = Number(process.env.MAX_CONNECTIONS) || 200
 const MAX_ROOM_CONNECTIONS = Number(process.env.MAX_ROOM_CONNECTIONS) || 30
 const IDLE_TIMEOUT_MS = Number(process.env.IDLE_TIMEOUT_MS) || 30 * 60 * 1000
 const IDLE_CHECK_INTERVAL_MS = 30 * 1000
+const MAX_PAYLOAD_BYTES = 4 * 1024
 
 const roomManager = new RoomManager()
 
@@ -27,7 +28,7 @@ const server = createServer((req, res) => {
 })
 
 // WebSocket サーバー
-const wss = new WebSocketServer({ server })
+const wss = new WebSocketServer({ server, maxPayload: MAX_PAYLOAD_BYTES })
 
 wss.on('connection', (ws) => {
   if (clientConnections.size >= MAX_CONNECTIONS) {
@@ -100,6 +101,9 @@ wss.on('connection', (ws) => {
       sendError(ws, errorMessage)
     }
   })
+
+  // 受信サイズ超過などのエラーは close が続けて発火するので、未処理例外でプロセスが落ちないよう握りつぶす
+  ws.on('error', () => {})
 
   ws.on('pong', () => {
     lastActivity.set(ws, Date.now())
