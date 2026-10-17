@@ -23,7 +23,20 @@ export function Privacy() {
           サーバーではこれらの情報を，ルームに参加者がいる間だけ一時的に保持し，参加者が全員退室した時点で破棄します。
         </li>
         <li>
-          本サービスはCloudflareを利用して配信しており，Cloudflareがアクセスログ（IPアドレス，アクセス日時，閲覧したページ等）を記録します。運営者はこれをアクセス状況の把握のために集計した形で利用します。本サービスは解析用のCookieを使用しません。
+          本サービスはCloudflareを利用して配信しており，Cloudflareがアクセスログ（IPアドレス，アクセス日時，閲覧したページ等）を記録します。運営者はこれをアクセス状況の把握のために集計した形で利用します。
+        </li>
+        <li>
+          表示速度の計測のため，CloudflareのWeb
+          Analyticsを利用しています。ページを開くとCloudflareのスクリプトが読み込まれ，閲覧したページのURL，参照元，ページの読み込み時間などの表示性能の情報がCloudflareに送信されます。このスクリプトはCookieやローカルストレージを使用しません。データの取扱いについては
+          <a
+            href="https://www.cloudflare.com/ja-jp/privacypolicy/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-primary hover:underline"
+          >
+            Cloudflareのプライバシーポリシー
+          </a>
+          をご確認ください。
         </li>
       </ul>
 
