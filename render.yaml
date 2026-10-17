@@ -48,3 +48,5 @@ services:
         value: "true"
       - key: VITE_WS_URL
         value: wss://e2poker-backend.onrender.com
+      - key: VITE_REDIRECT_ORIGIN
+        value: https://e2poker.dev

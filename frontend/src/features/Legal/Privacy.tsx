@@ -23,26 +23,7 @@ export function Privacy() {
           サーバーではこれらの情報を，ルームに参加者がいる間だけ一時的に保持し，参加者が全員退室した時点で破棄します。
         </li>
         <li>
-          Google Analyticsを利用してアクセスログを収集しています。Google
-          AnalyticsはCookieを使用して，Googleに閲覧情報を送信します。これにより収集される情報には個人を特定する情報は含まれません。データの取扱いについては
-          <a
-            href="https://policies.google.com/technologies/partner-sites?hl=ja"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline"
-          >
-            Googleのポリシー
-          </a>
-          を，収集を無効にする場合は
-          <a
-            href="https://tools.google.com/dlpage/gaoptout?hl=ja"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-primary hover:underline"
-          >
-            Google アナリティクス オプトアウト アドオン
-          </a>
-          をご確認ください。
+          本サービスはCloudflareを利用して配信しており，Cloudflareがアクセスログ（IPアドレス，アクセス日時，閲覧したページ等）を記録します。運営者はこれをアクセス状況の把握のために集計した形で利用します。本サービスは解析用のCookieを使用しません。
         </li>
       </ul>
 
