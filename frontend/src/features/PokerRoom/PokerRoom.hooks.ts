@@ -160,7 +160,6 @@ export function usePokerRoom(roomId: string) {
     roomState,
     connected,
     disconnectReason,
-    userId,
     userName,
     vote,
     reveal,

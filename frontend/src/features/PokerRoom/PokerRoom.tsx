@@ -17,7 +17,6 @@ export function PokerRoom({ params }: PokerRoomProps) {
     roomState,
     connected,
     disconnectReason,
-    userId,
     userName,
     vote,
     reveal,
@@ -70,7 +69,7 @@ export function PokerRoom({ params }: PokerRoomProps) {
     )
   }
 
-  const myUser = roomState.users.find((u) => u.id === userId)
+  const myUser = roomState.users.find((u) => u.isSelf)
   const myVote = myUser?.vote || null
   const isSpectator = myUser?.isSpectator || false
   const canReveal = !roomState.revealed && roomState.users.some((u) => !u.isSpectator && u.voted)
@@ -107,7 +106,7 @@ export function PokerRoom({ params }: PokerRoomProps) {
               <Card
                 key={user.id}
                 user={user}
-                isMe={user.id === userId}
+                isMe={user.isSelf}
                 revealed={roomState.revealed}
               />
             ))}

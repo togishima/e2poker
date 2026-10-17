@@ -30,7 +30,9 @@ export type RoomState = {
 }
 
 export type UserState = {
+  // 他の参加者に配信される公開ID（localStorageのuserIdとは別物）
   id: string
+  isSelf: boolean
   name: string
   voted: boolean
   vote: string | null

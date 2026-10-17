@@ -1,4 +1,10 @@
+import { createHash } from 'node:crypto'
 import type { DeckType, RoomState, UserState } from '@e2poker/shared'
+
+// userIdは本人確認に使うため他の参加者には渡さず、ルームごとのハッシュを公開IDとして配信する
+export function toPublicId(roomId: string, userId: string): string {
+  return createHash('sha256').update(`${roomId}:${userId}`).digest('hex').slice(0, 16)
+}
 
 type Room = {
   id: string
@@ -144,7 +150,8 @@ export class RoomManager {
       const shouldShowVote = room.revealed || isRequester
 
       users.push({
-        id: user.id,
+        id: toPublicId(room.id, user.id),
+        isSelf: isRequester,
         name: user.name,
         voted: user.vote !== null,
         vote: shouldShowVote ? user.vote : null,

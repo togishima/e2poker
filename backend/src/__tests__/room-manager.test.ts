@@ -1,5 +1,5 @@
 import type { DeckType, UserState } from '@e2poker/shared'
-import { RoomManager } from '../room-manager.js'
+import { RoomManager, toPublicId } from '../room-manager.js'
 
 describe('RoomManager', () => {
   let manager: RoomManager
@@ -31,7 +31,8 @@ describe('RoomManager', () => {
       const state = manager.getRoomState('room1', 'user1')
       expect(state.users).toHaveLength(1)
       expect(state.users[0]).toEqual({
-        id: 'user1',
+        id: toPublicId('room1', 'user1'),
+        isSelf: true,
         name: 'Alice',
         voted: false,
         vote: null,
@@ -54,7 +55,7 @@ describe('RoomManager', () => {
       expect(isEmpty).toBe(false)
       const state = manager.getRoomState('room1', 'user2')
       expect(state.users).toHaveLength(1)
-      expect(state.users[0]?.id).toBe('user2')
+      expect(state.users[0]?.id).toBe(toPublicId('room1', 'user2'))
     })
 
     it('空ルームになったら自動削除される', () => {
@@ -62,6 +63,26 @@ describe('RoomManager', () => {
       const isEmpty = manager.leaveRoom('room1', 'user1')
       expect(isEmpty).toBe(true)
       expect(() => manager.getRoomState('room1', 'user1')).toThrow()
+    })
+
+    it('他の参加者にはuserIdではなく公開IDが配信される', () => {
+      manager.joinRoom('room1', 'user1', 'Alice')
+      manager.joinRoom('room1', 'user2', 'Bob')
+      const state = manager.getRoomState('room1', 'user2')
+      const alice = state.users.find((u: UserState) => u.name === 'Alice')
+      expect(alice?.id).not.toBe('user1')
+      expect(alice?.isSelf).toBe(false)
+      expect(state.users.find((u: UserState) => u.name === 'Bob')?.isSelf).toBe(true)
+    })
+
+    it('公開IDで入室しても他人の投票は見えない', () => {
+      manager.joinRoom('room1', 'user1', 'Alice')
+      manager.vote('room1', 'user1', '5')
+      const aliceId = toPublicId('room1', 'user1')
+      manager.joinRoom('room1', aliceId, 'Mallory')
+      const state = manager.getRoomState('room1', aliceId)
+      expect(state.users).toHaveLength(2)
+      expect(state.users.find((u: UserState) => u.name === 'Alice')?.vote).toBeNull()
     })
   })
 
@@ -74,7 +95,7 @@ describe('RoomManager', () => {
     it('投票できる', () => {
       manager.vote('room1', 'user1', '5')
       const state = manager.getRoomState('room1', 'user1')
-      const user1 = state.users.find((u: UserState) => u.id === 'user1')
+      const user1 = state.users.find((u: UserState) => u.id === toPublicId('room1', 'user1'))
       expect(user1?.voted).toBe(true)
       expect(user1?.vote).toBe('5')
     })
@@ -83,7 +104,7 @@ describe('RoomManager', () => {
       manager.vote('room1', 'user1', '5')
       manager.vote('room1', 'user1', null)
       const state = manager.getRoomState('room1', 'user1')
-      const user1 = state.users.find((u: UserState) => u.id === 'user1')
+      const user1 = state.users.find((u: UserState) => u.id === toPublicId('room1', 'user1'))
       expect(user1?.voted).toBe(false)
       expect(user1?.vote).toBeNull()
     })
@@ -106,7 +127,7 @@ describe('RoomManager', () => {
       manager.reveal('room1')
       const state = manager.getRoomState('room1', 'user1')
       expect(state.revealed).toBe(true)
-      const user2 = state.users.find((u: UserState) => u.id === 'user2')
+      const user2 = state.users.find((u: UserState) => u.id === toPublicId('room1', 'user2'))
       expect(user2?.vote).toBe('8')
     })
 
@@ -131,8 +152,8 @@ describe('RoomManager', () => {
 
     it('revealed=falseの場合、他ユーザーのvoteはnullで隠蔽される', () => {
       const state = manager.getRoomState('room1', 'user1')
-      const user1 = state.users.find((u: UserState) => u.id === 'user1')
-      const user2 = state.users.find((u: UserState) => u.id === 'user2')
+      const user1 = state.users.find((u: UserState) => u.id === toPublicId('room1', 'user1'))
+      const user2 = state.users.find((u: UserState) => u.id === toPublicId('room1', 'user2'))
       // 自分の投票は見える
       expect(user1?.vote).toBe('5')
       expect(user1?.voted).toBe(true)
@@ -144,8 +165,8 @@ describe('RoomManager', () => {
     it('revealed=trueの場合、全員の投票が見える', () => {
       manager.reveal('room1')
       const state = manager.getRoomState('room1', 'user1')
-      const user1 = state.users.find((u: UserState) => u.id === 'user1')
-      const user2 = state.users.find((u: UserState) => u.id === 'user2')
+      const user1 = state.users.find((u: UserState) => u.id === toPublicId('room1', 'user1'))
+      const user2 = state.users.find((u: UserState) => u.id === toPublicId('room1', 'user2'))
       expect(user1?.vote).toBe('5')
       expect(user2?.vote).toBe('8')
     })
