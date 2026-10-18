@@ -26,7 +26,8 @@ services:
       - key: IDLE_TIMEOUT_MS
         value: 1800000
 
-  - type: static
+  - type: web
+    runtime: static
     name: e2poker-frontend
     rootDir: frontend
     buildFilter:
@@ -48,3 +49,5 @@ services:
         value: "true"
       - key: VITE_WS_URL
         value: wss://e2poker-backend.onrender.com
+      - key: VITE_REDIRECT_ORIGIN
+        value: https://e2poker.dev

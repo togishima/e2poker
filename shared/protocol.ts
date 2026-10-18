@@ -7,6 +7,8 @@ export const DECKS: Record<DeckType, readonly string[]> = {
   roman: ['👍', '👎', '✋'],
 } as const
 
+export const MAX_USER_NAME_LENGTH = 20
+
 // Client → Server
 export type ClientMessage =
   | { type: 'JOIN'; roomId: string; userName: string }
@@ -30,7 +32,9 @@ export type RoomState = {
 }
 
 export type UserState = {
+  // 他の参加者に配信される公開ID（localStorageのuserIdとは別物）
   id: string
+  isSelf: boolean
   name: string
   voted: boolean
   vote: string | null

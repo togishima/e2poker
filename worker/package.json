@@ -1,0 +1,20 @@
+{
+  "name": "@e2poker/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm --filter frontend build && wrangler dev",
+    "deploy": "pnpm --filter frontend build && wrangler deploy",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@e2poker/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261006.1",
+    "@types/node": "^25.0.0",
+    "typescript": "^5.7.0",
+    "wrangler": "^4"
+  }
+}

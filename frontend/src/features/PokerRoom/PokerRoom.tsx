@@ -17,7 +17,6 @@ export function PokerRoom({ params }: PokerRoomProps) {
     roomState,
     connected,
     disconnectReason,
-    userId,
     userName,
     vote,
     reveal,
@@ -70,7 +69,7 @@ export function PokerRoom({ params }: PokerRoomProps) {
     )
   }
 
-  const myUser = roomState.users.find((u) => u.id === userId)
+  const myUser = roomState.users.find((u) => u.isSelf)
   const myVote = myUser?.vote || null
   const isSpectator = myUser?.isSpectator || false
   const canReveal = !roomState.revealed && roomState.users.some((u) => !u.isSpectator && u.voted)
@@ -104,12 +103,7 @@ export function PokerRoom({ params }: PokerRoomProps) {
           {/* カードグリッド */}
           <div className="flex flex-wrap justify-center gap-x-6 gap-y-10 w-full max-w-4xl relative z-10">
             {roomState.users.map((user) => (
-              <Card
-                key={user.id}
-                user={user}
-                isMe={user.id === userId}
-                revealed={roomState.revealed}
-              />
+              <Card key={user.id} user={user} isMe={user.isSelf} revealed={roomState.revealed} />
             ))}
           </div>
 
@@ -120,10 +114,11 @@ export function PokerRoom({ params }: PokerRoomProps) {
                 type="button"
                 onClick={reveal}
                 disabled={!canReveal}
-                className={`h-14 px-12 rounded-full font-extrabold text-lg border-2 border-transparent box-border transition-all ${canReveal
+                className={`h-14 px-12 rounded-full font-extrabold text-lg border-2 border-transparent box-border transition-all ${
+                  canReveal
                     ? 'bg-primary hover:bg-indigo-600 text-white shadow-xl shadow-primary/30 hover:-translate-y-1 active:scale-95'
                     : 'bg-slate-300 dark:bg-slate-700 text-slate-500 dark:text-slate-400 cursor-not-allowed'
-                  }`}
+                }`}
               >
                 カードを開く
               </button>

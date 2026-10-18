@@ -9,7 +9,7 @@ export function Home() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+    <main className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       <div className="text-center">
         <div className="flex items-center justify-center gap-2 text-xl font-extrabold tracking-tight mb-6">
           <span className="bg-primary text-white px-2 py-0.5 rounded-lg text-base">E²</span>
@@ -26,21 +26,58 @@ export function Home() {
           ルームを作成
         </button>
       </div>
-      
-      <footer className="absolute bottom-4 text-xs text-slate-400 dark:text-slate-600 flex gap-4">
-        <a href="/terms" className="hover:underline hover:text-slate-600 dark:hover:text-slate-400">利用規約</a>
-        <a href="/privacy" className="hover:underline hover:text-slate-600 dark:hover:text-slate-400">プライバシーポリシー</a>
-        <span className="text-slate-200 dark:text-slate-800">|</span>
+
+      <footer className="absolute bottom-4 inset-x-0 px-4 text-xs text-slate-500 dark:text-slate-400 flex flex-wrap justify-center gap-x-4 gap-y-1 whitespace-nowrap">
+        <a href="/terms" className="hover:underline hover:text-slate-600 dark:hover:text-slate-300">
+          利用規約
+        </a>
+        <a
+          href="/privacy"
+          className="hover:underline hover:text-slate-600 dark:hover:text-slate-300"
+        >
+          プライバシーポリシー
+        </a>
+        <span aria-hidden="true" className="text-slate-200 dark:text-slate-800">
+          |
+        </span>
         <div className="flex items-center gap-1">
           <span>関連サービス:</span>
-          <a href="https://curaq.app" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-slate-600 dark:hover:text-slate-400 flex items-center gap-0.5">
+          <a
+            href="https://curaq.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:underline hover:text-slate-600 dark:hover:text-slate-300 flex items-center gap-0.5"
+          >
             CuraQ
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            <svg
+              aria-hidden="true"
+              className="w-3 h-3"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+              />
             </svg>
           </a>
         </div>
+        <span aria-hidden="true" className="text-slate-200 dark:text-slate-800">
+          |
+        </span>
+        <a
+          href="https://github.com/sponsors/togishima"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline hover:text-slate-600 dark:hover:text-slate-300"
+        >
+          開発を支援する
+        </a>
       </footer>
-    </div>
+    </main>
   )
 }

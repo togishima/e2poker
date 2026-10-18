@@ -1,6 +1,6 @@
 export function Privacy() {
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <main className="max-w-4xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">プライバシーポリシー</h1>
       <p className="mb-4">
         本サービス（E²
@@ -23,7 +23,11 @@ export function Privacy() {
       <h2 className="text-xl font-bold mt-6 mb-2">第4条（外部サービス）</h2>
       <p className="mb-4">
         本サービスはGoogle
-        Fontsを利用してフォントを読み込みます。その際、接続元IPアドレスやブラウザー情報等がGoogleに送信されます。また、ホスティング事業者がサービス提供やセキュリティのため接続情報等を処理・記録する場合があります。これらの情報の取扱いは各事業者のポリシーに従います。現在、本サービスではGoogle
+        Fontsを利用してフォントを読み込みます。その際、接続元IPアドレスやブラウザー情報等がGoogleに送信されます。また、本サービスはCloudflareを利用して配信しており、Cloudflareがアクセスログ（IPアドレス、アクセス日時、閲覧したページ等）を記録します。運営者はこれをアクセス状況の把握のために集計した形で利用します。これらの情報の取扱いは各事業者のポリシーに従います。
+      </p>
+      <p className="mb-4">
+        表示速度の計測のため、CloudflareのWeb
+        Analyticsを利用しています。ページを開くとCloudflareのスクリプトが読み込まれ、閲覧したページのURL、参照元、ページの読み込み時間などの表示性能の情報がCloudflareに送信されます。このスクリプトはCookieやローカルストレージを使用しません。現在、本サービスではGoogle
         Analyticsによるアクセス解析を行っていません。
       </p>
       <p className="mb-4">
@@ -34,6 +38,15 @@ export function Privacy() {
           className="text-primary hover:underline"
         >
           Googleのプライバシーポリシー
+        </a>
+        {' / '}
+        <a
+          href="https://www.cloudflare.com/ja-jp/privacypolicy/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary hover:underline"
+        >
+          Cloudflareのプライバシーポリシー
         </a>
       </p>
 
@@ -52,6 +65,6 @@ export function Privacy() {
       </p>
 
       <p className="mt-8 text-sm text-gray-500">最終更新日：2026年10月17日</p>
-    </div>
+    </main>
   )
 }
