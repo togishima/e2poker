@@ -40,15 +40,6 @@ function getWsUrl(roomId: string): string {
   return url.toString()
 }
 
-function getUserId(): string {
-  const stored = localStorage.getItem('e2poker_userId')
-  if (stored) return stored
-
-  const newId = crypto.randomUUID()
-  localStorage.setItem('e2poker_userId', newId)
-  return newId
-}
-
 function getUserName(): string {
   const stored = localStorage.getItem('e2poker_userName')
   if (stored) return stored
@@ -65,8 +56,9 @@ export function usePokerRoom(roomId: string) {
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const shouldReconnectRef = useRef(true)
-  const [userId] = useState(() => getUserId())
+  const [userId, setUserId] = useState<string | null>(null)
   const [userName, setUserNameState] = useState(() => getUserName())
+  const userNameRef = useRef(userName)
 
   const send = useCallback((message: ClientMessage) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
@@ -76,22 +68,26 @@ export function usePokerRoom(roomId: string) {
 
   const connect = useCallback(() => {
     if (!shouldReconnectRef.current) return
+    setRoomState(null)
+    setUserId(null)
     const ws = new WebSocket(getWsUrl(roomId))
     wsRef.current = ws
 
     ws.onopen = () => {
+      if (wsRef.current !== ws) return
       setConnected(true)
       send({
         type: 'JOIN',
         roomId,
-        userId,
-        userName,
+        userName: userNameRef.current,
       })
     }
 
     ws.onmessage = (event) => {
+      if (wsRef.current !== ws) return
       const message = JSON.parse(event.data) as ServerMessage
       if (message.type === 'SYNC_STATE') {
+        setUserId(message.userId)
         setRoomState(message.state)
       } else if (message.type === 'ERROR') {
         console.error('WebSocket error:', message.message)
@@ -107,6 +103,7 @@ export function usePokerRoom(roomId: string) {
     }
 
     ws.onclose = () => {
+      if (wsRef.current !== ws) return
       setConnected(false)
       if (shouldReconnectRef.current) {
         reconnectTimeoutRef.current = setTimeout(() => {
@@ -118,19 +115,24 @@ export function usePokerRoom(roomId: string) {
     ws.onerror = () => {
       ws.close()
     }
-  }, [roomId, userId, userName, send])
+  }, [roomId, send])
 
   useEffect(() => {
     shouldReconnectRef.current = true
     setDisconnectReason(null)
+    // 旧バージョンのIDは本人確認に使用しない
+    localStorage.removeItem('e2poker_userId')
     connect()
 
     return () => {
+      shouldReconnectRef.current = false
       if (reconnectTimeoutRef.current) {
         clearTimeout(reconnectTimeoutRef.current)
       }
       if (wsRef.current) {
-        wsRef.current.close()
+        const ws = wsRef.current
+        wsRef.current = null
+        ws.close()
       }
     }
   }, [connect])
@@ -152,6 +154,7 @@ export function usePokerRoom(roomId: string) {
 
   const changeName = useCallback(
     (name: string) => {
+      userNameRef.current = name
       setUserNameState(name)
       localStorage.setItem('e2poker_userName', name)
       send({ type: 'CHANGE_NAME', name })

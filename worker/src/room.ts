@@ -1,6 +1,6 @@
 import { DurableObject } from 'cloudflare:workers'
 import type { ClientMessage, ServerMessage } from '@e2poker/shared'
-import { RoomManager, type RoomSnapshot } from '../../backend/src/room-manager.js'
+import { RoomManager, type RoomSnapshot, toPublicId } from '../../backend/src/room-manager.js'
 import type { Env } from './index'
 
 // backend/src/index.ts と同じ値
@@ -78,14 +78,19 @@ export class RoomObject extends DurableObject<Env> {
       const text = typeof raw === 'string' ? raw : new TextDecoder().decode(raw)
       const message = JSON.parse(text) as ClientMessage
 
-      // JOIN で接続に userId を登録する（Node 版と同じく、入室に失敗しても登録は残す）
+      // JOIN で接続に userId を登録する。参加者IDは接続ごとにサーバーが発行し、クライアント指定のIDは信用しない
       if (message.type === 'JOIN') {
+        if (attachment.userId !== null) {
+          this.sendError(ws, 'Already joined to a room')
+          return
+        }
         if (message.roomId !== this.roomId) {
           throw new Error('Room mismatch')
         }
-        attachment.userId = message.userId
+        const userId = crypto.randomUUID()
+        attachment.userId = userId
         ws.serializeAttachment(attachment)
-        this.rooms.joinRoom(message.roomId, message.userId, message.userName)
+        this.rooms.joinRoom(message.roomId, userId, message.userName)
         await this.saveAndBroadcast()
         return
       }
@@ -206,7 +211,11 @@ export class RoomObject extends DurableObject<Env> {
       if (attachment.userId === null) continue
       try {
         const state = this.rooms.getRoomState(this.roomId, attachment.userId)
-        const message: ServerMessage = { type: 'SYNC_STATE', state }
+        const message: ServerMessage = {
+          type: 'SYNC_STATE',
+          state,
+          userId: toPublicId(this.roomId, attachment.userId),
+        }
         ws.send(JSON.stringify(message))
       } catch {
         // エラーは無視（ルームが削除済みなど）

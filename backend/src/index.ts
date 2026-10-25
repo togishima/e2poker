@@ -1,7 +1,8 @@
+import { randomUUID } from 'node:crypto'
 import { createServer } from 'node:http'
 import type { ClientMessage, ServerMessage } from '@e2poker/shared'
 import { type WebSocket, WebSocketServer } from 'ws'
-import { RoomManager } from './room-manager.js'
+import { RoomManager, toPublicId } from './room-manager.js'
 
 const PORT = Number(process.env.PORT) || 3001
 const MAX_CONNECTIONS = Number(process.env.MAX_CONNECTIONS) || 200
@@ -46,6 +47,10 @@ wss.on('connection', (ws) => {
 
       // JOIN メッセージでクライアント情報を登録
       if (message.type === 'JOIN') {
+        if (clientConnections.has(ws)) {
+          sendError(ws, 'Already joined to a room')
+          return
+        }
         const roomConnections = Array.from(clientConnections.values()).filter(
           (info) => info.roomId === message.roomId,
         ).length
@@ -54,7 +59,9 @@ wss.on('connection', (ws) => {
           ws.close(1013, 'Room is at capacity')
           return
         }
-        const { roomId, userId, userName } = message
+        const { roomId, userName } = message
+        // 参加者IDは接続ごとに発行し、クライアント指定のIDを信用しない
+        const userId = randomUUID()
         clientConnections.set(ws, { roomId, userId })
         roomManager.joinRoom(roomId, userId, userName)
         broadcastRoomState(roomId)
@@ -150,7 +157,11 @@ function broadcastRoomState(roomId: string): void {
     if (info.roomId === roomId) {
       try {
         const state = roomManager.getRoomState(roomId, info.userId)
-        const message: ServerMessage = { type: 'SYNC_STATE', state }
+        const message: ServerMessage = {
+          type: 'SYNC_STATE',
+          state,
+          userId: toPublicId(roomId, info.userId),
+        }
         client.send(JSON.stringify(message))
       } catch {
         // エラーは無視（ルームが削除済みなど）
