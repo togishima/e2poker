@@ -13,5 +13,12 @@
   "durable_objects": {
     "bindings": [{ "name": "ROOMS", "class_name": "RoomObject" }]
   },
-  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RoomObject"] }]
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RoomObject"] }],
+  // Workers Builds のプレビュー（npx wrangler preview）用。
+  // コードが env.ROOMS を参照するので、Preview 側にも同じバインディングが必要
+  "previews": {
+    "durable_objects": {
+      "bindings": [{ "name": "ROOMS", "class_name": "RoomObject" }]
+    }
+  }
 }
