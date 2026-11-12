@@ -9,11 +9,10 @@ Cloudflare Workers 版のサーバー。frontend の静的配信と、`/ws?room=
 - Build command: `pnpm install --frozen-lockfile && pnpm --filter @e2poker/frontend build`
 - Deploy command: `npx wrangler deploy`
 
-main 以外のブランチは「プレビューのベース」の設定でビルドされる。Root directory は本番と同じく `worker` にしておく（`/` だと `wrangler.jsonc` が見つからず失敗する）。
+main 以外のブランチは「プレビューのベース」の設定で `npx wrangler preview` が実行される。こちらはリポジトリのルートで実行されるため、`wrangler.jsonc` はリポジトリ直下に置いている（`worker/` から実行しても wrangler は親ディレクトリを遡って見つける）。
 
 - Preview command: `npx wrangler preview`
 - `wrangler.jsonc` の `previews` ブロックも必要
-- ダッシュボードの設定を変えた後は、失敗したビルドを再試行しても古い設定のまま実行される。新しく push して確かめる
 
 ## ローカル開発
 

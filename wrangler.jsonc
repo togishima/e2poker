@@ -1,11 +1,13 @@
 {
+  // リポジトリ直下に置く。Workers Builds のプレビューはルートで wrangler を実行し、
+  // worker/ から実行した場合も wrangler は親ディレクトリを遡ってこのファイルを見つける
   "name": "e2poker",
-  "main": "src/index.ts",
+  "main": "worker/src/index.ts",
   "compatibility_date": "2026-01-01",
   // backend/src/room-manager.ts が node:crypto（createHash）を使うため
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "../frontend/dist/public",
+    "directory": "frontend/dist/public",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/ws"]
