@@ -9,13 +9,13 @@ Ephemeral（儚い）: 議論が終わればデータは一切残さない。
 2. 技術スタック
 Frontend: funstack-static (React + Vite)
 
-Backend: Node.js + ws (WebSocketサーバー)
+Backend: Cloudflare Workers + Durable Objects（ルームごとに 1 インスタンス）。ローカル開発用に Node.js + ws の WebSocket サーバーも併存
 
-Infrastructure: Render
+Infrastructure: Cloudflare Workers
 
-Frontend: Static Site (無料枠・スリープなし)
+Frontend: Workers Static Assets で配信
 
-Backend: Web Service (無料枠・15分でスリープあり)
+Backend: 同じ Worker の /ws で WebSocket を受け、Durable Object に振り分け
 
 Architecture:
 
@@ -63,7 +63,7 @@ Tシャツサイズ (XS, S, M, L, XL)
 
 ステートレス（サーバー）: データベースを持たず、全データはサーバーのメモリ（RAM）上のみで保持。
 
-揮発性仕様: Renderのスリープやデプロイにより、全ルームデータは定期的にクリアされる（Ephemeralな性質の許容）。
+揮発性仕様: Durable Object の退避やデプロイにより、ルームデータはクリアされうる（Ephemeralな性質の許容）。
 
 4. UI/UX 仕様
 テーマ切り替え: システム設定同期、ダーク、ライトの3モード対応。

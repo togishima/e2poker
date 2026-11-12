@@ -9,8 +9,6 @@ Cloudflare Workers 版のサーバー。frontend の静的配信と、`/ws?room=
 - Build command: `pnpm install --frozen-lockfile && pnpm --filter @e2poker/frontend build`
 - Deploy command: `npx wrangler deploy`
 
-Build variables に `VITE_WS_URL` を設定しないこと。設定すると frontend が Render の backend に接続してしまう。
-
 ## ローカル開発
 
 ```sh

@@ -22,13 +22,10 @@ function generateRandomName(): string {
   return `${color}${animal}`
 }
 
-// 接続先: VITE_WS_URL があればそれ（Render 用）、開発時は localhost、本番は同一オリジンの /ws
+// 接続先: 開発時は localhost の backend、本番は同一オリジンの /ws（Cloudflare Workers）
 function getWsUrl(roomId: string): string {
-  const configured = import.meta.env.VITE_WS_URL
   let base: string
-  if (configured) {
-    base = configured
-  } else if (import.meta.env.DEV) {
+  if (import.meta.env.DEV) {
     base = 'ws://localhost:3001'
   } else {
     const protocol = location.protocol === 'https:' ? 'wss' : 'ws'
